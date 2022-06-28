@@ -1,3 +1,4 @@
+
 #Download the content
 import requests
 #Parse 
@@ -8,6 +9,9 @@ from lxml import etree
 import re
 #Biblioteca spacy
 
+
+RE_NORMALIZE_BLANKS = re.compile(r'[\s]+')
+
 url = "http://www.planalto.gov.br/ccivil_03/constituicao/ConstituicaoCompilado.htm"
 REQUEST_HEADER = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
 
@@ -15,17 +19,24 @@ def replace_all_problems(text):
     fim = text.replace("\r\n", " ")
     return fim
 
+
+def normalize_text(s):
+
+    return RE_NORMALIZE_BLANKS.sub(' ', s).strip()
+
+
 def download_html(url):
     r = requests.get(url, headers=REQUEST_HEADER)
+
     return r.text
+
+def remove_pos_normas_centrais(html):
+
+    return html.split("Brasília, 5 de outubro de 1988.")[0]
 
 def parse_soup(html):
     soup = BeautifulSoup(html, 'html.parser')
-    endelement = soup.find_all("p", string="Brasília, 5 de outubro de 1988. ")
-    soup = str(soup)
-    uau = soup.split('<p align="justify" style="text-indent: 38px"><font face="Arial" size="2">Brasília, 5 de outubro de 1988. </font></p>')
-    soup = BeautifulSoup(uau, 'html.parser')
-    print(soup.text)
+    
     return soup
 
 def extract_preambulo(parse):
@@ -34,7 +45,9 @@ def extract_preambulo(parse):
     dictionary = {"preambulo": str(content)}
     return dictionary
 
+N_PS = 20
+
 if __name__ == "__main__":
     html = download_html(url)
-    parse = parse_soup(html)
-
+    html_preambulo_e_normas_centrais = remove_pos_normas_centrais(html)
+    parsed = parse_soup(html_preambulo_e_normas_centrais)
