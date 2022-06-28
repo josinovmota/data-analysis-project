@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 from lxml import etree
 #Extrair números e símbolos
 import re
-
+#Biblioteca spacy
 
 url = "http://www.planalto.gov.br/ccivil_03/constituicao/ConstituicaoCompilado.htm"
 REQUEST_HEADER = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
