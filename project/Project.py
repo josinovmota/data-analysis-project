@@ -51,23 +51,21 @@ def extract_preambulo(parse):
     return dictionary
 
 def create_title(soup):
-    print(soup.t)
+    find = soup.find_all("p", face="Arial")
+    return find
 
     
 #Limit of PS
-N_PS = 20
+N_PS = 100
 
 #Main function
 if __name__ == "__main__":
     html = download_html(url)
     html_preambulo_e_normas_centrais = remove_pos_normas_centrais(html)
     soup = parse_soup(html_preambulo_e_normas_centrais)
+    retorno = ""
 
 
-    for p, i in zip(soup.find_all('p'), range(N_PS)):
+    for p,i in zip(soup.find_all('p'), range(N_PS)):
         print(normalize_text(p.text))
-        print()
-
-
-
-    
+        print(i)
