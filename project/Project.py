@@ -58,8 +58,7 @@ def create_title(soup):
 #Limit of PS
 N_PS = 100
 
-#Main function
-if __name__ == "__main__":
+def main():
     html = download_html(url)
     html_preambulo_e_normas_centrais = remove_pos_normas_centrais(html)
     soup = parse_soup(html_preambulo_e_normas_centrais)
